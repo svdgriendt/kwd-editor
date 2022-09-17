@@ -3,16 +3,30 @@ import { Editor } from '@tiptap/vue-3';
 
 const props = defineProps<{ editor: Editor }>();
 
-function toggleMark(mark: 'Bold' | 'Italic' | 'Strike') {
-  props.editor.chain().focus()[`toggle${mark}`]().run();
+// Key = tiptap mark name, Value = Font Awesome name
+const marks = {
+  bold: 'bold',
+  italic: 'italic',
+  strike: 'strikethrough'
+};
+
+type KeysOfType<T> = {
+  [K in keyof T]: K;
+}[keyof T];
+type Marks = KeysOfType<typeof marks>;
+
+function toggleMark(mark: Marks) {
+  const capitalized = mark[0].toUpperCase() + mark.slice(1) as Capitalize<Marks>;
+  props.editor.chain().focus()[`toggle${capitalized}`]().run();
 }
-function isMarkActive(style: 'bold' | 'italic' | 'strike') {
+
+function isMarkActive(style: Marks) {
   return props.editor?.isActive(style);
 }
 </script>
   
 <template>
-  <button @click="toggleMark('Bold')" :class="{active: isMarkActive('bold')}"><i class="fa-solid fa-bold"></i></button>
-  <button @click="toggleMark('Italic')" :class="{active: isMarkActive('italic')}"><i class="fa-solid fa-italic"></i></button>
-  <button @click="toggleMark('Strike')" :class="{active: isMarkActive('strike')}"><i class="fa-solid fa-strikethrough"></i></button>
+  <button v-for="mark in Object.entries(marks)" :key="mark[0]" @click="toggleMark(mark[0] as Marks)" :class="{active: isMarkActive(mark[0] as Marks)}">
+    <i :class="`fa-solid fa-${mark[1]}`"></i>
+  </button>
 </template>
