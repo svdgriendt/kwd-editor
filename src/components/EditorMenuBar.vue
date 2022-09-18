@@ -16,12 +16,17 @@ const headings = {
   3: '3',
   4: '4'
 };
+const lists = {
+  bullet: 'list-ul',
+  ordered: 'list-ol'
+};
 
 type KeysOfType<T> = {
   [K in keyof T]: K;
 }[keyof T];
 type Marks = KeysOfType<typeof marks>;
 type Headings = KeysOfType<typeof headings>;
+type Lists = KeysOfType<typeof lists>;
 
 function toggleMark(mark: Marks) {
   const capitalized = mark[0].toUpperCase() + mark.slice(1) as Capitalize<Marks>;
@@ -39,6 +44,15 @@ function toggleHeading(level: Headings) {
 function isHeadingActive(level: Headings) {
   return props.editor?.isActive('heading', { level });
 }
+
+function toggleList(type: Lists) {
+  const capitalized = type[0].toUpperCase() + type.slice(1) as Capitalize<Lists>;
+  props.editor.chain().focus()[`toggle${capitalized}List`]().run();
+}
+
+function isListActive(type: Lists) {
+  return props.editor?.isActive(`${type}List`);
+}
 </script>
   
 <template>
@@ -48,5 +62,9 @@ function isHeadingActive(level: Headings) {
 
   <button v-for="heading in Object.entries(headings)" :key="heading[0]" @click="toggleHeading(parseInt(heading[0]) as Headings)" :class="{active: isHeadingActive(parseInt(heading[0]) as Headings)}">
     <i class="fa-solid fa-heading"></i> <i :class="`fa-solid fa-${heading[1]}`"></i>
+  </button>
+
+  <button v-for="list in Object.entries(lists)" :key="list[0]" @click="toggleList(list[0] as Lists)" :class="{active: isListActive(list[0] as Lists)}">
+    <i :class="`fa-solid fa-${list[1]}`"></i>
   </button>
 </template>
