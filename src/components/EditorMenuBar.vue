@@ -21,6 +21,12 @@ const lists = {
   ordered: 'list-ol',
   task: 'list-check'
 };
+const alignments = {
+  left: 'align-left',
+  center: 'align-center',
+  right: 'align-right',
+  justify: 'align-justify'
+}
 
 type KeysOfType<T> = {
   [K in keyof T]: K;
@@ -28,6 +34,7 @@ type KeysOfType<T> = {
 type Marks = KeysOfType<typeof marks>;
 type Headings = KeysOfType<typeof headings>;
 type Lists = KeysOfType<typeof lists>;
+type Alignments = KeysOfType<typeof alignments>;
 
 function toggleMark(mark: Marks) {
   const capitalized = mark[0].toUpperCase() + mark.slice(1) as Capitalize<Marks>;
@@ -54,6 +61,14 @@ function toggleList(type: Lists) {
 function isListActive(type: Lists) {
   return props.editor?.isActive(`${type}List`);
 }
+
+function setAlignment(type: Alignments) {
+  props.editor.chain().focus().setTextAlign(type).run();
+}
+
+function isAlignmentActive(type: Alignments) {
+  return props.editor?.isActive({ textAlign: type });
+}
 </script>
   
 <template>
@@ -67,5 +82,9 @@ function isListActive(type: Lists) {
 
   <button v-for="list in Object.entries(lists)" :key="list[0]" @click="toggleList(list[0] as Lists)" :class="{active: isListActive(list[0] as Lists)}">
     <i :class="`fa-solid fa-${list[1]}`"></i>
+  </button>
+
+  <button v-for="alignment in Object.entries(alignments)" :key="alignment[0]" @click="setAlignment(alignment[0] as Alignments)" :class="{active: isAlignmentActive(alignment[0] as Alignments)}">
+    <i :class="`fa-solid fa-${alignment[1]}`"></i>
   </button>
 </template>
