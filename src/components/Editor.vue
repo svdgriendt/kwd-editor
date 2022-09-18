@@ -2,10 +2,12 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
+import TaskList from '@tiptap/extension-task-list';
+import TaskListItem from '@tiptap/extension-task-item';
 import EditorMenuBar from './EditorMenuBar.vue';
 
 const tiptap = useEditor({
-  extensions: [StarterKit, Underline]
+  extensions: [StarterKit, Underline, TaskList, TaskListItem.configure({ nested: true })]
 });
 </script>
   

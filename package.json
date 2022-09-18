@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.0",
+    "@tiptap/extension-task-item": "^2.0.0-beta.195",
+    "@tiptap/extension-task-list": "^2.0.0-beta.195",
     "@tiptap/extension-underline": "^2.0.0-beta.195",
     "@tiptap/starter-kit": "^2.0.0-beta.192",
     "@tiptap/vue-3": "^2.0.0-beta.97",

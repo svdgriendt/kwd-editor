@@ -18,7 +18,8 @@ const headings = {
 };
 const lists = {
   bullet: 'list-ul',
-  ordered: 'list-ol'
+  ordered: 'list-ol',
+  task: 'list-check'
 };
 
 type KeysOfType<T> = {
