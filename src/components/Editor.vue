@@ -24,6 +24,8 @@ const tiptap = useEditor({
 </script>
   
 <template>
-  <editor-menu-bar :editor="tiptap!" />
-  <editor-content :editor="tiptap" />
+  <div class="editor">
+    <editor-menu-bar :editor="tiptap!" />
+    <editor-content :editor="tiptap" />
+  </div>
 </template>
