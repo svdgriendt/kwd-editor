@@ -83,6 +83,14 @@ function toggleVerticalAlignment(type: VerticalAlignments) {
 function isVerticalAlignmentActive(type: VerticalAlignments) {
   return props.editor?.isActive(type);
 }
+
+function toggleHighlight() {
+  props.editor.chain().focus().toggleHighlight().run();
+}
+
+function isHighlightActive() {
+  return props.editor?.isActive('highlight');
+}
 </script>
   
 <template>
@@ -104,5 +112,9 @@ function isVerticalAlignmentActive(type: VerticalAlignments) {
 
   <button v-for="alignment in Object.entries(verticalAlignments)" :key="alignment[0]" @click="toggleVerticalAlignment(alignment[0] as VerticalAlignments)" :class="{active: isVerticalAlignmentActive(alignment[0] as VerticalAlignments)}">
     <i :class="`fa-solid fa-${alignment[1]}`"></i>
+  </button>
+
+  <button @click="toggleHighlight" :class="{active: isHighlightActive()}">
+    <i class="fa-solid fa-highlighter"></i>
   </button>
 </template>
