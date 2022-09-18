@@ -7,6 +7,7 @@ const props = defineProps<{ editor: Editor }>();
 const marks = {
   bold: 'bold',
   italic: 'italic',
+  underline: 'underline',
   strike: 'strikethrough'
 };
 
