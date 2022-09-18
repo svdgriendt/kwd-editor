@@ -5,6 +5,8 @@ import Underline from '@tiptap/extension-underline';
 import TaskList from '@tiptap/extension-task-list';
 import TaskListItem from '@tiptap/extension-task-item';
 import TextAlign from '@tiptap/extension-text-align';
+import Subscript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
 import EditorMenuBar from './EditorMenuBar.vue';
 
 const tiptap = useEditor({
@@ -12,7 +14,9 @@ const tiptap = useEditor({
     Underline,
     TaskList,
     TaskListItem.configure({ nested: true }),
-    TextAlign.configure({ types: ['heading','paragraph'] })
+    TextAlign.configure({ types: ['heading','paragraph'] }),
+    Subscript,
+    Superscript
   ]
 });
 </script>

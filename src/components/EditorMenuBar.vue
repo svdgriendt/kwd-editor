@@ -21,12 +21,16 @@ const lists = {
   ordered: 'list-ol',
   task: 'list-check'
 };
-const alignments = {
+const horizontalAlignments = {
   left: 'align-left',
   center: 'align-center',
   right: 'align-right',
   justify: 'align-justify'
 }
+const verticalAlignments = {
+  subscript: 'subscript',
+  superscript: 'superscript'
+};
 
 type KeysOfType<T> = {
   [K in keyof T]: K;
@@ -34,7 +38,8 @@ type KeysOfType<T> = {
 type Marks = KeysOfType<typeof marks>;
 type Headings = KeysOfType<typeof headings>;
 type Lists = KeysOfType<typeof lists>;
-type Alignments = KeysOfType<typeof alignments>;
+type HorizontalAlignments = KeysOfType<typeof horizontalAlignments>;
+type VerticalAlignments = KeysOfType<typeof verticalAlignments>;
 
 function toggleMark(mark: Marks) {
   const capitalized = mark[0].toUpperCase() + mark.slice(1) as Capitalize<Marks>;
@@ -62,12 +67,21 @@ function isListActive(type: Lists) {
   return props.editor?.isActive(`${type}List`);
 }
 
-function setAlignment(type: Alignments) {
+function setHorizontalAlignment(type: HorizontalAlignments) {
   props.editor.chain().focus().setTextAlign(type).run();
 }
 
-function isAlignmentActive(type: Alignments) {
+function isHorizontalAlignmentActive(type: HorizontalAlignments) {
   return props.editor?.isActive({ textAlign: type });
+}
+
+function toggleVerticalAlignment(type: VerticalAlignments) {
+  const capitalized = type[0].toUpperCase() + type.slice(1) as Capitalize<VerticalAlignments>;
+  props.editor.chain().focus()[`toggle${capitalized}`]().run();
+}
+
+function isVerticalAlignmentActive(type: VerticalAlignments) {
+  return props.editor?.isActive(type);
 }
 </script>
   
@@ -84,7 +98,11 @@ function isAlignmentActive(type: Alignments) {
     <i :class="`fa-solid fa-${list[1]}`"></i>
   </button>
 
-  <button v-for="alignment in Object.entries(alignments)" :key="alignment[0]" @click="setAlignment(alignment[0] as Alignments)" :class="{active: isAlignmentActive(alignment[0] as Alignments)}">
+  <button v-for="alignment in Object.entries(horizontalAlignments)" :key="alignment[0]" @click="setHorizontalAlignment(alignment[0] as HorizontalAlignments)" :class="{active: isHorizontalAlignmentActive(alignment[0] as HorizontalAlignments)}">
+    <i :class="`fa-solid fa-${alignment[1]}`"></i>
+  </button>
+
+  <button v-for="alignment in Object.entries(verticalAlignments)" :key="alignment[0]" @click="toggleVerticalAlignment(alignment[0] as VerticalAlignments)" :class="{active: isVerticalAlignmentActive(alignment[0] as VerticalAlignments)}">
     <i :class="`fa-solid fa-${alignment[1]}`"></i>
   </button>
 </template>
